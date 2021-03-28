@@ -1,5 +1,7 @@
 mod pong;
 
+mod systems;
+
 use crate::pong::Pong;
 
 use amethyst::{
@@ -10,6 +12,7 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
+    input::{InputBundle, StringBindings},
     utils::application_root_dir,
 };
 
@@ -29,7 +32,18 @@ fn main() -> amethyst::Result<()> {
         )?
         .with_bundle(
             TransformBundle::new(),
-        )?;
+        )?
+        .with_bundle(
+            InputBundle::<StringBindings>::new()
+            .with_bindings_from_file(
+                app_root.join("config").join("bindings.ron"),
+            )?,
+        )?
+        .with(
+            systems::PaddleSystem,
+            "paddle_system",
+            &["input_system"]
+        );
 
     let mut game = Application::new(
         app_root.join("assets"),

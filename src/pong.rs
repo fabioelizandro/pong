@@ -63,8 +63,6 @@ fn initialise_camera(world: &mut World) {
 }
 
 fn initialise_paddles(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>){
-    world.register::<Paddle>();
-
     let mut left_transform = Transform::default();
     let mut right_transform = Transform::default();
 
